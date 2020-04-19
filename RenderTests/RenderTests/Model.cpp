@@ -20,7 +20,7 @@ void Model::draw()
 		vector<UniformSet*> unis = meshes[shader.first].second;
 		applyAll(unis, shader.second.id);
 		for (Mesh* m : shader.second.meshes) {
-			m->draw();
+			m->draw(shader.second.id);
 		}
 	}
 }
@@ -45,7 +45,15 @@ void Model::bindShader(Shader s, int type)
 
 void Model::bindUniform(UniformSet* u, int type)
 {
-	meshes[type].second.push_back(u);
+    if (type == TYPE_ALL_OBJECTS) {
+        for (map<uint, pair<vector<Mesh>, vector<UniformSet*>>>::iterator iter = meshes.begin(); iter != meshes.end(); iter++) {
+            vector<UniformSet*>* allUni = &iter->second.second;
+            allUni->push_back(u);
+        }
+    }
+    else {
+        meshes[type].second.push_back(u);
+    }
 }
 
 Model::Model(string path) {

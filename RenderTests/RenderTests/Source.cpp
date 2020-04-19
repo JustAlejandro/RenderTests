@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 	nanoModel.bindShader(s, TYPE_ALL_OBJECTS);
 	nanoModel.draw();
 
-	SDL_Delay(100);
+	//SDL_Delay(100);
 
 	SDL_GL_DeleteContext(glContext);
 	SDL_DestroyWindow(window);

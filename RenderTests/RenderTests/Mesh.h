@@ -19,7 +19,7 @@ class Mesh
 public:
 	unsigned int uid;
 	int type;
-	void draw();
+	void draw(uint shaderID);
 	vector<Vertex> vertices;
 	vector<uint> indices;
 	vector<Texture> textures;
