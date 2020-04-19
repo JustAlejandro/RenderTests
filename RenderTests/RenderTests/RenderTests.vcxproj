@@ -153,6 +153,8 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="default.fs" />
+    <None Include="default.vs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

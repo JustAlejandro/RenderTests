@@ -22,7 +22,7 @@ void Mesh::draw(uint shaderID) {
 			number = std::to_string(normalCount++);
 		}
 
-		glUniform1f(glGetUniformLocation(shaderID, ("material." + name + number).c_str()), i);
+		glUniform1i(glGetUniformLocation(shaderID, ("material." + name + number).c_str()), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 	glActiveTexture(GL_TEXTURE0);

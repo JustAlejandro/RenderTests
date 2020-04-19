@@ -141,8 +141,8 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
     textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
     //The Model I'm using to test mislabels normal maps as height maps. Also assimp is at fault here.
     vector<Texture> normalMaps = loadMaterialTextures(material,
-        aiTextureType_HEIGHT, "texture_bump");
-    textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+        aiTextureType_HEIGHT, "texture_normal");
+    textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
     int type = TYPE_ALL_OBJECTS;
 

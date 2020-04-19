@@ -33,6 +33,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="default.vs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="default.fs">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SDL_Helper.h">
