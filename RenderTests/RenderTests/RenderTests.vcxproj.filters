@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Shader">
+      <UniqueIdentifier>{341f9309-b4b9-48d3-b99c-74494af83214}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -33,11 +36,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="default.vs">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="default.fs">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shader</Filter>
+    </None>
+    <None Include="default.vs">
+      <Filter>Source Files\Shader</Filter>
+    </None>
+    <None Include="diffuse_only.fs">
+      <Filter>Source Files\Shader</Filter>
+    </None>
+    <None Include="normal_no_specular.vs">
+      <Filter>Source Files\Shader</Filter>
+    </None>
+    <None Include="normal_no_specular.fs">
+      <Filter>Source Files\Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +70,12 @@
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LightModel.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

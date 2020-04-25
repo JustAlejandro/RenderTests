@@ -20,7 +20,9 @@ void Model::draw()
 		vector<UniformSet*> unis = meshes[shader.first].second;
 		applyAll(unis, shader.second.id);
 		for (Mesh* m : shader.second.meshes) {
-			m->draw(shader.second.id);
+            if (m->getShader() == shader.second.id) {
+                m->draw(shader.second.id);
+            }
 		}
 	}
 }
@@ -31,6 +33,7 @@ void Model::bindShader(Shader s, int type)
         for (map<uint, pair<vector<Mesh>, vector<UniformSet*>>>::iterator iter = meshes.begin(); iter != meshes.end(); iter++) {
             vector<Mesh>* allMesh = &iter->second.first;
             for (int i = 0; i < allMesh->size(); i++) {
+                allMesh->at(i).setShader(s.id);
                 s.meshes.push_back(&allMesh->at(i));
             }
         }
@@ -38,6 +41,7 @@ void Model::bindShader(Shader s, int type)
 	vector<Mesh>* meshPoint = &meshes[type].first;
 	for (int i = 0; i < meshPoint->size(); i++)
 	{
+        meshPoint->at(i).setShader(s.id);
 		s.meshes.push_back(&meshPoint->at(i));
 	}
 	shaders[type] = s;
@@ -118,10 +122,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
         vector.x = mesh->mTangents[i].x;
         vector.y = mesh->mTangents[i].y;
         vector.z = mesh->mTangents[i].z;
+        vertex.tan = vector;
+
         //// bitangent
         vector.x = mesh->mBitangents[i].x;
         vector.y = mesh->mBitangents[i].y;
         vector.z = mesh->mBitangents[i].z;
+        vertex.bitan = vector;
 
         vertices.push_back(vertex);
     }
@@ -145,12 +152,12 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
     textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
     int type = TYPE_ALL_OBJECTS;
+    if (diffuseMaps.size() == 0 && normalMaps.size() == 0 && specularMaps.size() == 0) type = TYPE_NO_TEXTURE;
+    else if (diffuseMaps.size() > 0 && normalMaps.size() == 0 && specularMaps.size() == 0) type = TYPE_DIFFUSE_ONLY;
+    else if (diffuseMaps.size() > 0 && normalMaps.size() > 0 && specularMaps.size() == 0) type = TYPE_DIFFUSE_BUMP;
+    else if (diffuseMaps.size() > 0 && normalMaps.size() > 0 && specularMaps.size() > 0) type = TYPE_DIFFUSE_BUMP_SPECULAR;
 
-    if (specularMaps.size() == 0) type = TYPE_DIFFUSE_ONLY;
-    else if (normalMaps.size() > 0) type = TYPE_DIFFUSE_BUMP;
-    else type = TYPE_DIFFUSE_SPECULAR;
-
-    return Mesh(vertices, indices, textures);
+    return Mesh(vertices, indices, textures, type);
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName) {

@@ -28,16 +28,17 @@ void Mesh::draw(uint shaderID) {
 	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
-Mesh::Mesh(vector<Vertex> vertices, vector<uint> indices, vector<Texture> textures)
+Mesh::Mesh(vector<Vertex> vertices, vector<uint> indices, vector<Texture> textures, int type)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures;
-
+	this->type = type;
+	this->shaderID = -1;
 	setupMesh();
 }
 
@@ -66,6 +67,15 @@ void Mesh::setupMesh() {
 	//Vertex Texture Coords
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+
+	//Need to setup bitangent and tangent vectors if using tangent space normal map
+	if (type == TYPE_DIFFUSE_BUMP || type == TYPE_DIFFUSE_BUMP_SPECULAR) {
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tan));
+
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitan));
+	}
 
 	glBindVertexArray(0);
 }

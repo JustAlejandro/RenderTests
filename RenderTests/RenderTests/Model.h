@@ -7,9 +7,6 @@
 
 using namespace std;
 
-//Types of object's in the program. Also the ordering here is the order of rendering.
-enum ObjectType { TYPE_ALL_OBJECTS, TYPE_DIFFUSE_ONLY, TYPE_DIFFUSE_SPECULAR, TYPE_DIFFUSE_BUMP };
-
 
 
 class Model
@@ -31,6 +28,5 @@ public:
 	void draw();
 	void bindShader(Shader s, int type);
 	void bindUniform(UniformSet* u, int type);
-	void loadModel(string path);
 };
 

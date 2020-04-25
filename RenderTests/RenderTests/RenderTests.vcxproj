@@ -155,9 +155,14 @@
   <ItemGroup>
     <None Include="default.fs" />
     <None Include="default.vs" />
+    <None Include="diffuse_only.fs" />
+    <None Include="normal_no_specular.fs" />
+    <None Include="normal_no_specular.vs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightModel.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLoader.h" />
