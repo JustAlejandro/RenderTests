@@ -49,6 +49,8 @@ SDL_Window* SDL_Setup(int height, int width, SDL_GLContext& context) {
 	//Sometimes glew just throws errors, so we'll clear them
 	glGetError();
 
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+
 	glViewport(0, 0, width, height);
 
 	glEnable(GL_DEPTH_TEST);

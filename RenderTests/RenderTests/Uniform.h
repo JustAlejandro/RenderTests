@@ -6,6 +6,7 @@
 #include <SDL_opengl.h>
 #include <map>
 #include <string>
+#include <vector>
 
 using namespace glm;
 using namespace std;
@@ -56,6 +57,13 @@ public:
 	}
 };
 
+class LightUniform {
+public:
+	virtual void apply(uint shaderID, int count[LIGHT_AMOUNT_OF_TYPES]) = 0;
+protected:
+	LightUniform() = default;
+};
+
 class LightUniformSet : public UniformSet {
 public:
 	vector<LightUniform*> lights;
@@ -65,13 +73,6 @@ public:
 			light->apply(shaderID, count);
 		}
 	}
-};
-
-class LightUniform {
-public:
-	virtual void apply(uint shaderID, int count[LIGHT_AMOUNT_OF_TYPES]) = 0;
-protected:
-	LightUniform() = default;
 };
 
 class DirectionalLightUniform : public LightUniform {

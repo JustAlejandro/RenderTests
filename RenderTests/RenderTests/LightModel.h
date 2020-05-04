@@ -4,7 +4,7 @@
 
 class LightModel : public Model {
 public:
-	LightModel(string path, Light_Type light_type, vec3 dir, vec3 pos) : Model(path) {
+	LightModel(string path, Light_Type light_type, vec3 dir, vec3 pos) : Model(Model::loadModel(path)) {
 		switch (light_type)
 		{
 		case LIGHT_TYPE_POINT:
@@ -17,8 +17,13 @@ public:
 			light = new SpotLight(pos, dir);
 			break;
 		default:
+			light = NULL;
 			break;
 		}
+	}
+
+	static LightModel loadModel(string path, Light_Type light_type, vec3 dir, vec3 pos) {
+		return LightModel(path, light_type, dir, pos);
 	}
 	Light* light;
 private:

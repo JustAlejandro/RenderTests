@@ -25,11 +25,11 @@ void Mesh::draw(uint shaderID) {
 		glUniform1i(glGetUniformLocation(shaderID, ("material." + name + number).c_str()), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
-	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+	glActiveTexture(GL_TEXTURE0);
 }
 
 Mesh::Mesh(vector<Vertex> vertices, vector<uint> indices, vector<Texture> textures, int type)
@@ -48,6 +48,7 @@ void Mesh::setupMesh() {
 	glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);

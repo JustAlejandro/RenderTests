@@ -4,14 +4,15 @@
 #include "Shader.h"
 #include <vector>
 #include <assimp/scene.h>
+#include <map>
+#include <string>
 
 using namespace std;
-
-
 
 class Model
 {
 public:
+	static Model loadModel(string path);
 	Model(string path);
 	void processNode(vector<Mesh>& meshes, aiNode* node, const aiScene* scene);
 	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
@@ -25,8 +26,11 @@ public:
 	//Map of compiled shader programs, sorted by object type
 	map<unsigned int, Shader> shaders;
 
-	void draw();
+	virtual void draw();
 	void bindShader(Shader s, int type);
 	void bindUniform(UniformSet* u, int type);
+
+private:
+	static map<string, Model> cache;
 };
 

@@ -5,6 +5,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+map<string, Model> Model::cache;
+
 unsigned int TextureFromFile(const char* path, const string& directory, bool gamma = false);
 
 void applyAll(vector<UniformSet*> unis, unsigned int shaderID) {
@@ -60,7 +62,14 @@ void Model::bindUniform(UniformSet* u, int type)
     }
 }
 
+Model Model::loadModel(string path) {
+    map<string, Model>::iterator it = cache.find(path);
+    if (it != cache.end()) return it->second;
+    return Model(path);
+}
+
 Model::Model(string path) {
+
     Assimp::Importer import;
     const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
