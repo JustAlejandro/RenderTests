@@ -139,7 +139,7 @@ public:
 	}
 	void apply(unsigned int shaderID, int count[LIGHT_AMOUNT_OF_TYPES]) {
 		glUniform3fv(glGetUniformLocation(shaderID,
-			("pointLights[" + std::to_string(count[LIGHT_TYPE_POINT]) + "].position").c_str()), 1, (const GLfloat*)pos);
+			("pointLights[" + std::to_string(count[LIGHT_TYPE_POINT]) + "].position").c_str()), 1, (const GLfloat*)&pos->x);
 		count[LIGHT_TYPE_POINT]++;
 	}
 private:

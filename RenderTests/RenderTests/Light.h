@@ -13,7 +13,7 @@ protected:
 
 class PointLight : public Light {
 public:
-	PointLight(vec3 pos): uniform(&pos) {
+	PointLight(vec3 pos): uniform(&this->pos) {
 		this->pos = pos;
 	}
 
@@ -26,7 +26,7 @@ public:
 
 class DirectionalLight : public Light {
 public:
-	DirectionalLight(vec3 dir): uniform(&dir) {
+	DirectionalLight(vec3 dir): uniform(&this->dir) {
 		this->dir = dir;
 	}
 	LightUniform* getUniform() {
@@ -38,7 +38,7 @@ public:
 
 class SpotLight : public Light {
 public:
-	SpotLight(vec3 pos, vec3 dir): uniform(&pos, &dir) {
+	SpotLight(vec3 pos, vec3 dir): uniform(&this->pos, &this->dir) {
 		this->pos = pos;
 		this->dir = dir;
 	}

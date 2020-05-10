@@ -20,8 +20,18 @@ public:
 		lightModel->bindUniform(camera.getUniform(), TYPE_ALL_OBJECTS);
 		return lightModel;
 	}
+	void bindShaderAll(Shader s, int type) {
+		for (std::map<string, Model*>::iterator it = models.begin(); it != models.end(); it++) {
+			it->second->bindShader(s, type);
+		}
+	}
 	void bindShader(string name, Shader s, int type) {
 		models[name]->bindShader(s, type);
+	}
+	void bindUniformAll(UniformSet* u, int type) {
+		for (std::map<string, Model*>::iterator it = models.begin(); it != models.end(); it++) {
+			it->second->bindUniform(u, type);
+		}
 	}
 	void bindUniform(string name, UniformSet* u, int type) {
 		models[name]->bindUniform(u, type);
@@ -48,6 +58,7 @@ public:
 			it->second->bindUniform(camera.getUniform(), TYPE_ALL_OBJECTS);
 			it->second->bindModelUniform();
 		}
+		bindUniformAll(&lights, TYPE_ALL_OBJECTS);
 	}
 	bool stillRunning() {
 		return camera.stillRunning();

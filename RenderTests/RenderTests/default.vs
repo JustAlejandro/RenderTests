@@ -17,10 +17,14 @@ uniform mat4 model;
 
 out vec2 vTexCoord;
 out vec3 vNormal;
+out vec3 vViewtoModel;
+out vec3 vFragCoordWorld;
 
 void main()
 {
+	vFragCoordWorld = (model * vec4(aPos, 1.0)).xyz;
 	gl_Position = camera.projection * camera.view * model * vec4(aPos, 1.0);
 	vTexCoord = texCoord;
-	vNormal = aNormal;
+	vNormal = normalize(vec3(model * vec4(aNormal, 0.0)));
+	vViewtoModel = camera.pos - model[3].xyz;
 }

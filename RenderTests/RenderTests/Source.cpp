@@ -27,21 +27,26 @@ int main(int argc, char* argv[]) {
 	Scene scene;
 
 	Shader s((shaderDir + "default.vs").c_str(), (shaderDir + "diffuse_only.fs").c_str());
-	Shader defaultShader((shaderDir + "default.vs").c_str(), (shaderDir + "default.fs").c_str());
+	Shader blankShader((shaderDir + "default.vs").c_str(), (shaderDir + "default.fs").c_str());
 
 	string nano = "nanosuit";
 	string cube = "cube";
+	string cube2 = "cube2";
 
 	scene.loadModel(nano, nanoDir);
 	scene.bindShader(nano, s, TYPE_ALL_OBJECTS);
 	scene.warpModel(nano, vec3(0.0f, -4.0f, -10.0f));
 	scene.scaleModel(nano, 0.4f);
 
-	scene.loadLightModel(cube, cubeDir, LIGHT_TYPE_SPOTLIGHT, vec3(0), vec3(-3.0, 3.0, -5.0));
-	scene.bindShader(cube, defaultShader, TYPE_ALL_OBJECTS);
+	scene.loadLightModel(cube, cubeDir, LIGHT_TYPE_POINT, vec3(0), vec3(-3.0, 3.0, -5.0));
+	scene.bindShader(cube, blankShader, TYPE_ALL_OBJECTS);
 	scene.warpModel(cube, vec3(-3.0f, 3.0f, -5.0f));
 	scene.scaleModel(cube, 0.05f);
 
+	scene.loadLightModel(cube2, cubeDir, LIGHT_TYPE_POINT, vec3(0), vec3(3.0, 3.0, -15.0));
+	scene.bindShader(cube2, blankShader, TYPE_ALL_OBJECTS);
+	scene.warpModel(cube2, vec3(3.0f, 3.0f, -15.0f));
+	scene.scaleModel(cube2, 0.05f);
 
 	scene.bindBasicUniforms();
 
