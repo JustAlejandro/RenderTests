@@ -4,6 +4,7 @@
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include <glm\ext\matrix_transform.hpp>
 
 map<string, Model> Model::cache;
 
@@ -49,8 +50,7 @@ void Model::bindShader(Shader s, int type)
 	shaders[type] = s;
 }
 
-void Model::bindUniform(UniformSet* u, int type)
-{
+void Model::bindUniform(UniformSet* u, int type) {
     if (type == TYPE_ALL_OBJECTS) {
         for (map<uint, pair<vector<Mesh>, vector<UniformSet*>>>::iterator iter = meshes.begin(); iter != meshes.end(); iter++) {
             vector<UniformSet*>* allUni = &iter->second.second;
@@ -62,14 +62,33 @@ void Model::bindUniform(UniformSet* u, int type)
     }
 }
 
+void Model::warp(vec3 pos) {
+    modelMatrix[3][0] = pos[0];
+    modelMatrix[3][1] = pos[1];
+    modelMatrix[3][2] = pos[2];
+}
+
+void Model::move(vec3 offset) {
+    modelMatrix = glm::translate(modelMatrix, offset);
+}
+
+void Model::scale(float size) {
+    modelMatrix = glm::scale(modelMatrix, vec3(size, size, size));
+}
+
+void Model::bindModelUniform() {
+    modelUniform = new GenericUniformSet();
+    modelUniform->set("model", &modelMatrix);
+    bindUniform(modelUniform, TYPE_ALL_OBJECTS);
+}
+
 Model Model::loadModel(string path) {
     map<string, Model>::iterator it = cache.find(path);
     if (it != cache.end()) return it->second;
     return Model(path);
 }
 
-Model::Model(string path) {
-
+Model::Model(string path) : modelMatrix(1.0) {
     Assimp::Importer import;
     const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 

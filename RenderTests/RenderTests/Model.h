@@ -14,6 +14,19 @@ class Model
 public:
 	static Model loadModel(string path);
 	Model(string path);
+
+	virtual void draw();
+	void bindShader(Shader s, int type);
+	void bindUniform(UniformSet* u, int type);
+	void warp(vec3 pos);
+	void move(vec3 offset);
+	void scale(float size);
+	void bindModelUniform();
+private:
+	static map<string, Model> cache;
+	mat4 modelMatrix;
+	GenericUniformSet* modelUniform;
+
 	void processNode(vector<Mesh>& meshes, aiNode* node, const aiScene* scene);
 	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 	vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
@@ -25,12 +38,5 @@ public:
 	string path;
 	//Map of compiled shader programs, sorted by object type
 	map<unsigned int, Shader> shaders;
-
-	virtual void draw();
-	void bindShader(Shader s, int type);
-	void bindUniform(UniformSet* u, int type);
-
-private:
-	static map<string, Model> cache;
 };
 

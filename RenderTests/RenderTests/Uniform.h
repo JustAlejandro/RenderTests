@@ -66,13 +66,38 @@ protected:
 
 class LightUniformSet : public UniformSet {
 public:
-	vector<LightUniform*> lights;
 	void apply(unsigned int shaderID) {
 		int count[LIGHT_AMOUNT_OF_TYPES] = { 0 };
 		for (LightUniform* light : lights) {
 			light->apply(shaderID, count);
 		}
+		// Applying the counts as uniforms
+		for (int i = 0; i < LIGHT_AMOUNT_OF_TYPES; i++) {
+			string name = "";
+			switch (i)
+			{
+			case LIGHT_TYPE_POINT:
+				name = "pointLightCount";
+				break;
+			case LIGHT_TYPE_DIRECTIONAL:
+				name = "directionalLightCount";
+				break;
+			case LIGHT_TYPE_SPOTLIGHT:
+				name = "spotLightCount";
+				break;
+			default:
+				name = "noNameFound";
+				break;
+			}
+			glUniform1i(glGetUniformLocation(shaderID,
+				name.c_str()), count[i]);
+		}
 	}
+	void add(LightUniform* light) {
+		lights.push_back(light);
+	}
+private:
+	vector<LightUniform*> lights;
 };
 
 class DirectionalLightUniform : public LightUniform {

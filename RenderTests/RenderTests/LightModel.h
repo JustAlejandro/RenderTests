@@ -25,7 +25,10 @@ public:
 	static LightModel loadModel(string path, Light_Type light_type, vec3 dir, vec3 pos) {
 		return LightModel(path, light_type, dir, pos);
 	}
-	Light* light;
-private:
 
+	LightUniform* getLightUniform() {
+		return light->getUniform();
+	}
+private:
+	Light* light;
 };
